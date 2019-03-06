@@ -100,7 +100,7 @@ router.post('/login', (req, res) => {
 		});
 	});
 });
-
+// passport for private routes and just res.json for server response on a get req
 // @route   GET api/users/current
 // @desc    Return current user
 // @access  Private
