@@ -49,7 +49,7 @@ class Register extends Component {
 							<h1 className="display-4 text-center">Sign Up</h1>
 							<p className="lead text-center">Create your DevConnector account</p>
 							{/* on submit of the form */}
-							<form onSubmit={this.onSubmit} action="create-profile.html">
+							<form noValidate onSubmit={this.onSubmit} action="create-profile.html">
 								<div className="form-group">
 									<input
 										type="text"
