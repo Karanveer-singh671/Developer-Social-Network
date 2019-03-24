@@ -27,6 +27,12 @@ class Register extends Component {
 		});
 	};
 
+	componentDidMount() {
+		if (this.props.auth.isAuthenticated) {
+			this.props.history.push('/dashboard');
+		}
+	}
+
 	UNSAFE_componentWillReceiveProps(nextProps) {
 		if (nextProps.errors) {
 			this.setState({
