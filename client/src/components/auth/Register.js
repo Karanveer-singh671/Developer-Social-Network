@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { withRouter } from 'react-router-dom';
 import classnames from 'classnames';
 import { connect } from 'react-redux';
 import { registerUser } from './../../actions/authActions';
@@ -43,7 +44,8 @@ class Register extends Component {
 			password: this.state.password,
 			password: this.state.password2
 		};
-		this.props.registerUser(newUser);
+		// can use this.props.history to redirect within the action using withRouter
+		this.props.registerUser(newUser, this.props.history);
 	};
 
 	render() {
@@ -137,4 +139,4 @@ const mapStateToProps = (state) => ({
 	errors: state.errors
 });
 
-export default connect(mapStateToProps, { registerUser })(Register);
+export default connect(mapStateToProps, { registerUser })(withRouter(Register));

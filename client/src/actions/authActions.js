@@ -14,13 +14,17 @@ import { registerUser } from './authActions';
 // };
 
 // this const template is the same as putting registerUser function and then dispatch function inside of it
-export const registerUser = (userData) => (dispatch) => {
-	axios.post('api/users/register', userData).then((result) =>
-		console.log(result.data).catch((err) =>
+export const registerUser = (userData, history) => (dispatch) => {
+	axios
+		.post('api/users/register', userData)
+		.then((result) =>
+			// inside component to redirect use this.props.history.push("/something") but here can't do by default in action
+			history.push('/login')
+		)
+		.catch((err) =>
 			dispatch({
 				type: GET_ERRORS,
 				payload: err.response.data
 			})
-		)
-	);
+		);
 };
