@@ -23,6 +23,7 @@ class AddExperience extends Component {
 		};
 	}
 
+	// will now display once received props
 	componentWillReceiveProps(nextProps) {
 		if (nextProps.errors) {
 			this.setState({ errors: nextProps.errors });
