@@ -13,6 +13,7 @@ import { jwt_decode } from 'jwt-decode';
 import setAuthToken from './utils/setAuthToken';
 import { setCurrentUser, logoutUser } from './actions/authActions';
 import Dashboard from './components/dashboard/Dashboard';
+import { clearCurrentProfile } from './actions/profileActions';
 
 // check for token
 if (localStorage.jwtToken) {
@@ -30,6 +31,7 @@ if (localStorage.jwtToken) {
 		// logout user
 		store.dispatch(logoutUser());
 		// Clear current Profile
+		store.dispatch(clearCurrentProfile());
 		// redirect to login
 		window.location.href = '/login';
 	}
