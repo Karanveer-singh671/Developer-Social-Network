@@ -30,5 +30,5 @@ Profile.propTypes = {
 const mapStateToProps = (state) => ({
 	profile: state.profile
 });
-
+// need getProfileByHandle or else will say not a function
 export default connect(mapStateToProps, { getProfileByHandle })(Profile);
