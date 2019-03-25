@@ -1,15 +1,13 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import TextFieldGroup from './../common/TextFieldGroup';
-import TextAreaFieldGroup from './../common/TextAreaFieldGroup';
-import InputGroup from './../common/InputGroup';
-import SelectListGroup from './../common/SelectListGroup';
-import { withRouter } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import TextFieldGroup from '../common/TextFieldGroup';
+import TextAreaFieldGroup from '../common/TextAreaFieldGroup';
+import InputGroup from '../common/InputGroup';
+import SelectListGroup from '../common/SelectListGroup';
 import { createProfile, getCurrentProfile } from '../../actions/profileActions';
-import CreateProfile from './EditProfile';
-import { getCurrentProfile } from './../../actions/profileActions';
-import isEmpty from './../../validation/is-empty';
+import isEmpty from '../../validation/is-empty';
 
 class CreateProfile extends Component {
 	constructor(props) {
@@ -32,34 +30,10 @@ class CreateProfile extends Component {
 			errors: {}
 		};
 
-		onSubmit = (e) => {
-			e.preventDefault();
-			const profileData = {
-				handle: this.state.handle,
-				company: this.state.company,
-				website: this.state.website,
-				location: this.state.location,
-				status: this.state.status,
-				skills: this.state.skills,
-				githubusername: this.state.githubusername,
-				bio: this.state.bio,
-				twitter: this.state.twitter,
-				facebook: this.state.facebook,
-				linkedin: this.state.linkedin,
-				youtube: this.state.youtube,
-				instagram: this.state.instagram
-			};
-			// redux actions will be always be in props
-			this.props.createProfile(profileData, this.props.history);
-		};
+		this.onChange = this.onChange.bind(this);
+		this.onSubmit = this.onSubmit.bind(this);
 	}
 
-	onChange = (e) => {
-		this.setState({
-			[e.target.name]: e.target.value
-		});
-	};
-	//first thing is to get current profile to edit
 	componentDidMount() {
 		this.props.getCurrentProfile();
 	}
@@ -68,15 +42,14 @@ class CreateProfile extends Component {
 		if (nextProps.errors) {
 			this.setState({ errors: nextProps.errors });
 		}
-		// check for profile
+
 		if (nextProps.profile.profile) {
 			const profile = nextProps.profile.profile;
 
-			// CHANGE skills array to CSV
-			// take array turn to string and separate by comma
+			// Bring skills array back to CSV
 			const skillsCSV = profile.skills.join(',');
 
-			// if profile field DNE make into empty string
+			// If profile field doesnt exist, make empty string
 			profile.company = !isEmpty(profile.company) ? profile.company : '';
 			profile.website = !isEmpty(profile.website) ? profile.website : '';
 			profile.location = !isEmpty(profile.location) ? profile.location : '';
@@ -89,7 +62,7 @@ class CreateProfile extends Component {
 			profile.youtube = !isEmpty(profile.social.youtube) ? profile.social.youtube : '';
 			profile.instagram = !isEmpty(profile.social.instagram) ? profile.social.instagram : '';
 
-			// Set component fields state, still in if statement
+			// Set component fields state
 			this.setState({
 				handle: profile.handle,
 				company: profile.company,
@@ -108,20 +81,37 @@ class CreateProfile extends Component {
 		}
 	}
 
+	onSubmit(e) {
+		e.preventDefault();
+
+		const profileData = {
+			handle: this.state.handle,
+			company: this.state.company,
+			website: this.state.website,
+			location: this.state.location,
+			status: this.state.status,
+			skills: this.state.skills,
+			githubusername: this.state.githubusername,
+			bio: this.state.bio,
+			twitter: this.state.twitter,
+			facebook: this.state.facebook,
+			linkedin: this.state.linkedin,
+			youtube: this.state.youtube,
+			instagram: this.state.instagram
+		};
+
+		this.props.createProfile(profileData, this.props.history);
+	}
+
+	onChange(e) {
+		this.setState({ [e.target.name]: e.target.value });
+	}
+
 	render() {
 		const { errors, displaySocialInputs } = this.state;
-		// Select options for status
-		const options = [
-			{ label: '* Select Professional Status', value: 0 },
-			{ label: 'Developer', value: 'Developer' },
-			{ label: 'Junior Developer', value: 'Junior Developer' },
-			{ label: 'Senior Developer', value: 'Senior Developer' },
-			{ label: 'Manager', value: 'Manager' },
-			{ label: 'Student or Learning', value: 'Student or Learning' },
-			{ label: 'Instructor or Teacher', value: 'Instructor or Teacher' },
-			{ label: 'Intern', value: 'Intern' },
-			{ label: 'Other', value: 'Other' }
-		];
+
+		let socialInputs;
+
 		if (displaySocialInputs) {
 			socialInputs = (
 				<div>
@@ -173,13 +163,28 @@ class CreateProfile extends Component {
 			);
 		}
 
+		// Select options for status
+		const options = [
+			{ label: '* Select Professional Status', value: 0 },
+			{ label: 'Developer', value: 'Developer' },
+			{ label: 'Junior Developer', value: 'Junior Developer' },
+			{ label: 'Senior Developer', value: 'Senior Developer' },
+			{ label: 'Manager', value: 'Manager' },
+			{ label: 'Student or Learning', value: 'Student or Learning' },
+			{ label: 'Instructor or Teacher', value: 'Instructor or Teacher' },
+			{ label: 'Intern', value: 'Intern' },
+			{ label: 'Other', value: 'Other' }
+		];
+
 		return (
 			<div className="create-profile">
 				<div className="container">
 					<div className="row">
-						{' '}
 						<div className="col-md-8 m-auto">
-							<h1 className="display-4 text-center">Edit your Profile</h1>
+							<Link to="/dashboard" className="btn btn-light">
+								Go Back
+							</Link>
+							<h1 className="display-4 text-center">Edit Profile</h1>
 							<small className="d-block pb-3">* = required fields</small>
 							<form onSubmit={this.onSubmit}>
 								<TextFieldGroup
@@ -188,7 +193,7 @@ class CreateProfile extends Component {
 									value={this.state.handle}
 									onChange={this.onChange}
 									error={errors.handle}
-									info=" A unique handle for your profile's URL. Full name, company name, nickname"
+									info="A unique handle for your profile URL. Your full name, company name, nickname"
 								/>
 								<SelectListGroup
 									placeholder="Status"
@@ -273,8 +278,9 @@ class CreateProfile extends Component {
 		);
 	}
 }
+
 CreateProfile.propTypes = {
-	CreateProfile: PropTypes.func.isRequired,
+	createProfile: PropTypes.func.isRequired,
 	getCurrentProfile: PropTypes.func.isRequired,
 	profile: PropTypes.object.isRequired,
 	errors: PropTypes.object.isRequired
