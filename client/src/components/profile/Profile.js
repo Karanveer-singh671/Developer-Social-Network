@@ -34,7 +34,7 @@ class Profile extends Component {
 						</div>
 						<div className="col-md-6" />
 					</div>
-					{/* pass in profile property to ProfileHeader, cred etc can access thru this.props now */}
+					{/* display this subcomponent on profile and pass in profile property to ProfileHeader, cred etc can access thru this.props now */}
 					<ProfileHeader profile={profile} />
 					<ProfileAbout profile={profile} />
 					{/* passing these props to profilecreds to be available */}

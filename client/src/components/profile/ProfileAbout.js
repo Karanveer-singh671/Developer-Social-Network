@@ -5,6 +5,7 @@ import isEmpty from '../../validation/is-empty';
 class ProfileAbout extends Component {
 	render() {
 		// property passed from Profile Component inside it's render
+		// has prop of profile so need to use in proptypes for checking
 		const { profile } = this.props;
 
 		// Get first name
