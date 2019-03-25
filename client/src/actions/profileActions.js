@@ -4,6 +4,7 @@ import { GET_PROFILE, PROFILE_LOADING, GET_ERRORS } from './types';
 // get current profile
 export const getCurrentProfile = () => (dispatch) => {
 	dispatch(setProfileLoading());
+	// hit endpoint if find profile call getprofile gives payload which is profile
 	axios
 		.get('/api/profile')
 		.then(
