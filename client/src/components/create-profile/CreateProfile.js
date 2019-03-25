@@ -56,7 +56,7 @@ class CreateProfile extends Component {
 	};
 
 	render() {
-		const { errors } = this.state;
+		const { errors, displaySocialInputs } = this.state;
 		// Select options for status
 		const options = [
 			{ label: '* Select Professional Status', value: 0 },
@@ -69,6 +69,57 @@ class CreateProfile extends Component {
 			{ label: 'Intern', value: 'Intern' },
 			{ label: 'Other', value: 'Other' }
 		];
+		if (displaySocialInputs) {
+			socialInputs = (
+				<div>
+					<InputGroup
+						placeholder="Twitter Profile URL"
+						name="twitter"
+						icon="fab fa-twitter"
+						value={this.state.twitter}
+						onChange={this.onChange}
+						error={errors.twitter}
+					/>
+
+					<InputGroup
+						placeholder="Facebook Page URL"
+						name="facebook"
+						icon="fab fa-facebook"
+						value={this.state.facebook}
+						onChange={this.onChange}
+						error={errors.facebook}
+					/>
+
+					<InputGroup
+						placeholder="Linkedin Profile URL"
+						name="linkedin"
+						icon="fab fa-linkedin"
+						value={this.state.linkedin}
+						onChange={this.onChange}
+						error={errors.linkedin}
+					/>
+
+					<InputGroup
+						placeholder="YouTube Channel URL"
+						name="youtube"
+						icon="fab fa-youtube"
+						value={this.state.youtube}
+						onChange={this.onChange}
+						error={errors.youtube}
+					/>
+
+					<InputGroup
+						placeholder="Instagram Page URL"
+						name="instagram"
+						icon="fab fa-instagram"
+						value={this.state.instagram}
+						onChange={this.onChange}
+						error={errors.instagram}
+					/>
+				</div>
+			);
+		}
+
 		return (
 			<div className="create-profile">
 				<div className="container">
