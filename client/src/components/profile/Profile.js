@@ -37,6 +37,7 @@ class Profile extends Component {
 					{/* pass in profile property to ProfileHeader, cred etc can access thru this.props now */}
 					<ProfileHeader profile={profile} />
 					<ProfileAbout profile={profile} />
+					{/* passing these props to profilecreds to be available */}
 					<ProfileCreds education={profile.education} experience={profile.experience} />
 					{profile.githubusername ? <ProfileGithub username={profile.githubusername} /> : null}
 				</div>
