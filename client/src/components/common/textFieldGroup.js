@@ -3,7 +3,7 @@ import classnames from 'classnames';
 import PropTypes from 'prop-types';
 
 // functional component need fields input like so
-const textFieldGroup = () => ({ name, placeholder, value, label, error, info, type, onChange, disabled }) => {
+const TextFieldGroup = () => ({ name, placeholder, value, label, error, info, type, onChange, disabled }) => {
 	return (
 		<div className="form-group">
 			<input
@@ -39,4 +39,4 @@ textFieldGroup.defaultProps = {
 	type: 'text'
 };
 
-export default textFieldGroup;
+export default TextFieldGroup;
