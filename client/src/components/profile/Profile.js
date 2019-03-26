@@ -1,74 +1,76 @@
 import React, { Component } from 'react';
-import ProfileAbout from './ProfileAbout';
-import ProfileHeader from './ProfileHeader';
-import ProfileCreds from './ProfileCreds';
-import ProfileGithub from './ProfileGithub';
-import Spinner from './../common/Spinner';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import ProfileHeader from './ProfileHeader';
+import ProfileAbout from './ProfileAbout';
+import ProfileCreds from './ProfileCreds';
+import ProfileGithub from './ProfileGithub';
+import Spinner from '../common/Spinner';
 import { getProfileByHandle } from '../../actions/profileActions';
 
 class Profile extends Component {
-	componentDidMount() {
-		// check thru URI endpoint
-		if (this.props.match.params.handle) {
-			this.props.getProfileByHandle(this.props.match.params.handle);
-		}
-	}
-	// if
-	componentWillReceiveProps(nextProps) {
-		if (nextProps.profile.profile === null && this.props.profile.loading) {
-			this.props.history.push('/not-found');
-		}
-	}
+  componentDidMount() {
+    if (this.props.match.params.handle) {
+      this.props.getProfileByHandle(this.props.match.params.handle);
+    }
+  }
 
-	render() {
-		const { profile, loading } = this.props.profile;
-		let profileContent;
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.profile.profile === null && this.props.profile.loading) {
+      this.props.history.push('/not-found');
+    }
+  }
 
-		if (profile === null || loading) {
-			profileContent = <Spinner />;
-		} else {
-			profileContent = (
-				<div>
-					<div className="row">
-						<div className="col-md-6">
-							<Link to="/profiles" className="btn btn-light mb-3 float-left">
-								Back To Profiles
-							</Link>
-						</div>
-						<div className="col-md-6" />
-					</div>
-					{/* display this subcomponent on profile and pass in profile property to ProfileHeader, cred etc can access thru this.props now */}
-					<ProfileHeader profile={profile} />
-					<ProfileAbout profile={profile} />
-					{/* passing these props to profilecreds to be available */}
-					<ProfileCreds education={profile.education} experience={profile.experience} />
-					{profile.githubusername ? <ProfileGithub username={profile.githubusername} /> : null}
-				</div>
-			);
-		}
+  render() {
+    const { profile, loading } = this.props.profile;
+    let profileContent;
 
-		return (
-			<div className="profile">
-				<div className="container">
-					<div className="row">
-						<div className="col-md-12">{profileContent}</div>
-					</div>
-				</div>
-			</div>
-		);
-	}
+    if (profile === null || loading) {
+      profileContent = <Spinner />;
+    } else {
+      profileContent = (
+        <div>
+          <div className="row">
+            <div className="col-md-6">
+              <Link to="/profiles" className="btn btn-light mb-3 float-left">
+                Back To Profiles
+              </Link>
+            </div>
+            <div className="col-md-6" />
+          </div>
+          <ProfileHeader profile={profile} />
+          <ProfileAbout profile={profile} />
+          <ProfileCreds
+            education={profile.education}
+            experience={profile.experience}
+          />
+          {profile.githubusername ? (
+            <ProfileGithub username={profile.githubusername} />
+          ) : null}
+        </div>
+      );
+    }
+
+    return (
+      <div className="profile">
+        <div className="container">
+          <div className="row">
+            <div className="col-md-12">{profileContent}</div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 }
 
 Profile.propTypes = {
-	getProfileByHandle: PropTypes.func.isRequired,
-	profile: PropTypes.object.isRequired
+  getProfileByHandle: PropTypes.func.isRequired,
+  profile: PropTypes.object.isRequired
 };
 
-const mapStateToProps = (state) => ({
-	profile: state.profile
+const mapStateToProps = state => ({
+  profile: state.profile
 });
-// need getProfileByHandle or else will say not a function
+
 export default connect(mapStateToProps, { getProfileByHandle })(Profile);
