@@ -1,4 +1,4 @@
-import { ADD_POST } from '../actions/types';
+import { ADD_POST, GET_POSTS, DELETE_POST, POST_LOADING } from '../actions/types';
 
 const initialState = {
 	posts: [],
@@ -23,6 +23,11 @@ export default function(state = initialState, action) {
 				...state,
 				// want new post coming from action.payload and old posts array use spread operator to put payload in front
 				posts: [ action.payload, ...state.posts ]
+			};
+		case DELETE_POST:
+			return {
+				...state,
+				posts: state.posts.filter((post) => post._id !== action.payload)
 			};
 		default:
 			return state;
