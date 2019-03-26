@@ -46,6 +46,7 @@ class PostItem extends Component {
 							<span>
 								<button onClick={this.onLikeClick} type="button" className="btn btn-light mr-1">
 									<i
+										// first param is class always want, and second is the conditional class to display need boolean function to determine
 										className={classnames('fas fa-thumbs-up', {
 											'text-info': this.findUserLike(post.likes)
 										})}
